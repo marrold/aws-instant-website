@@ -1,0 +1,23 @@
+# Define the provider version, as required in TF version 0.14
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 3.0"
+    }
+  }
+}
+
+# Set the default provider. This is where the bucket will live.
+provider "aws" {
+  region                  = "eu-west-2"
+  profile                 = "default"
+}
+
+# Set the provider for us-east-1. TLS certificates must live in us-east-1, so we
+# need to define it.
+provider "aws" {
+  alias                   = "us-east-1"
+  region                  = "us-east-1"
+  profile                 = "default"
+}
