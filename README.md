@@ -1,3 +1,5 @@
+Note: This is borked beyond belief so don't use it yet...
+
 # aws-instant-website
 
 aws-instant-website is a [terraform](https://www.terraform.io/) configuration to build a public static website in AWS S3, with Cloudfront in front allowing you to use a custom domain + DNS with TLS.
