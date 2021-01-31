@@ -26,6 +26,9 @@ It's assumed that you already have Terraform installed and configured, and your 
 
 - Edit the profiles and regions as required.
 
+### A note on mime types
+If you don't explicitly define the mime type for each file uploaded to S3 with Terraform it will default to `binary/octet-stream` which results in your browser downloading the file rather than rendering it. To resolve this issue, the mime type is inferred from the file extension. This should work in most instances but there might be the odd edge case when it fails.  It's possible to override the defined the default mime types (See below). If you an encounter an issue please raise an issue so I can take a look.
+
 ### Usage
 
 In your main terraform file you can define the FQDN of your website and the `file_path` to a directory of files you want uploading to s3.
@@ -64,6 +67,11 @@ Your .tf file should look something like this:
         # PriceClass_200: Use U.S., Canada, Europe, Asia, Middle East and Africa
         # PriceClass_All: Use All Edge Locations (Best Performance)
         # price_class = "PriceClass_100"
+        
+        # Due to the way Terraform / S3 works we must define the correct mime-type when the file is uploaded. We infer this from a map of
+        # mime-types in the module (mime-types.tf). If the mime-type for your file extension is missing or wrong, you can override it by 
+        # supplying a map of overrides here. An example is included in mime_type_overrides.tf
+        # mime_type_overrides = local.mime_type_overrides
     }
   
  Once you've configured the module and the yaml files you can run the usual:
@@ -86,11 +94,13 @@ terraform apply
 
 - **viewer_protocol_policy**: Specify which protocol viewers can access the website via. One of allow-all, https-only, or redirect-to-https. Defaults to redirect-to-https.
 
-- **price_class**:  # Sets the price class, e.g which regions content is served from. More regions = more expensive. Defaults to PriceClass_100.
+- **price_class**:  Sets the price class, e.g which regions content is served from. More regions = more expensive. Defaults to PriceClass_100.
 
 	    PriceClass_100: Use Only U.S., Canada and Europe
 	    PriceClass_200: Use U.S., Canada, Europe, Asia, Middle East and Africa
 	    PriceClass_All: Use All Edge Locations (Best Performance)
+	    
+- **mime_type_overrides**: A map of file extensions and their mime-types, to override those set by the module. 
 
 
 ## License

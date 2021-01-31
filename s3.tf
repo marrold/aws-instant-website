@@ -1,20 +1,26 @@
 locals {
+
+  # Build a list of mime types from the included defaults and the user supplied overrides
+  merged_mime_types = merge(local.default_mime_types, var.mime_type_overrides)
   
   # Build a list of the file keys
-  file_keys = try(fileset(var.file_path, "**"), [])
+  file_keys = try(fileset(var.file_path, "**"), []) 
 
-  # Build a list of full paths to yaml files
-  file_full_paths = try(flatten([
+  # Build a map of file names, full paths, and mime-types
+  file_map = flatten([
 
-      for file in fileset(var.file_path, "**") :
-        format("%s/%s", var.file_path, file)
+      for file in fileset(var.file_path, "**") : {
+        "path"      = format("%s/%s", var.file_path, file), 
+        "mime_type" = local.merged_mime_types[split(".", file)[length(split(".", file)) - 1]]
 
-  ]), null)
+      }
+
+  ])
 
   # Merge everything into a single map
   merged_paths = zipmap(
     local.file_keys != null ? local.file_keys : [] , 
-    local.file_full_paths != null ? local.file_full_paths : []
+    local.file_map  != null ? local.file_map : []
   )
 
 }
@@ -22,10 +28,10 @@ locals {
 # Create a random string to concat with the bucket name
 resource "random_string" "random_id" {
 
-  length = 16
+  length  = 16
   special = false
-  upper = false
-  lower = true
+  upper   = false
+  lower   = true
 
 }
 
@@ -68,14 +74,13 @@ resource "aws_s3_bucket" "s3_bucket" {
 
 resource "aws_s3_bucket_object" "object" {
   
-  for_each = local.merged_paths != null ? local.merged_paths : {}
+  for_each     = local.merged_paths != null ? local.merged_paths : {}
 
-  bucket = aws_s3_bucket.s3_bucket.id
-  key    = each.key
-  source = each.value
-  acl    = "private"
-
-  etag = filemd5(each.value)
+  bucket       = aws_s3_bucket.s3_bucket.id
+  key          = each.key
+  source       = each.value.path
+  acl          = "private"
+  content_type = each.value.mime_type
+  etag         = filemd5(each.value.path)
 
 }
-
