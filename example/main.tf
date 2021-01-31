@@ -1,6 +1,6 @@
 module "website" {
 
-    source = "github.com/marrold/aws-instant-website?ref=v0.1"
+    source = "github.com/marrold/aws-instant-website?ref=v0.2"
 
     providers = {
       aws     = aws
@@ -30,4 +30,9 @@ module "website" {
     # PriceClass_200: Use U.S., Canada, Europe, Asia, Middle East and Africa
     # PriceClass_All: Use All Edge Locations (Best Performance)
     # price_class = "PriceClass_100"
+
+    # Due to the way Terraform / S3 works we must define the correct mime-type when the file is uploaded. We infer this from a map of
+    # mime-types in the module (mime-types.tf). If the mime-type for your file extension is missing or wrong, you can override it by 
+    # supplying a map of overrides here. An example is included in mime_type_overrides.tf
+    # mime_type_overrides = local.mime_type_overrides
 }
