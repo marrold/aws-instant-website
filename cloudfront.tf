@@ -20,7 +20,7 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
   comment             = var.fqdn
   default_root_object = var.index_html
 
-  aliases = [var.fqdn]
+  aliases = concat([var.fqdn],local.reassembled_subdomains)
 
   default_cache_behavior {
     allowed_methods  = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]

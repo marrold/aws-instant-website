@@ -9,6 +9,20 @@ variable "fqdn" {
   type        = string
 }
 
+variable "subdomains" {
+  description = "List of subdomains for the website"
+  type        = list
+  default     = []
+}
+
+locals {
+  reassembled_subdomains = flatten([
+    for subdomain in var.subdomains : [
+      format("%s.%s", subdomain, var.fqdn)
+    ]
+  ])
+}
+
 variable "index_html" {
   description = "The file to display as the root document, e.g index.html"
   type        = string

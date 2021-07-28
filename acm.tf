@@ -5,6 +5,7 @@ resource "aws_acm_certificate" "acm_cert" {
   provider = aws.us-east-1
 
   domain_name       = var.fqdn
+  subject_alternative_names = local.reassembled_subdomains
   validation_method = "DNS"
 
   lifecycle {

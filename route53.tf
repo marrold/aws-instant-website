@@ -37,8 +37,10 @@ resource "aws_route53_record" "validation_record" {
 # of the domain if required.
 resource "aws_route53_record" "alias_record" {
 
+  for_each = toset(concat([var.fqdn],local.reassembled_subdomains))
+
   zone_id = data.aws_route53_zone.route53_zone.zone_id
-  name    = var.fqdn
+  name    = each.key
   type    = "A"
 
   alias {

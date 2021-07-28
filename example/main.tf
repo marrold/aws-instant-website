@@ -7,7 +7,8 @@ module "website" {
       aws.us-east-1 = aws.us-east-1
     }
 
-    fqdn = "www.example.org"
+    fqdn = "example.org"
+    subdomains = ["www"]
 
     # Path to HTML. If this value is not defined it's assumed you'll upload files using another method.
     file_path = "html/"

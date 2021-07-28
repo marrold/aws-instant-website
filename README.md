@@ -84,6 +84,8 @@ terraform apply
 
 -  **fqdn**: This is the _full_ domain you want your website to  be accessed via. [Mandatory]
 
+- **subdomains**: subdomains of the FQDN, e.g www
+
 -  **file_path**: The path to a directory of files you want uploaded to s3. If this value is not defined it's assumed you'll upload files using another method.
 
 -  **route53_zone**: The top level domain that's managed in AWS Route53. If it's commented out or not supplied, it's assumed the fqdn is also associated with a route53 zone. 
