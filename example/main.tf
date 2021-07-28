@@ -1,6 +1,6 @@
 module "website" {
 
-    source = "github.com/marrold/aws-instant-website?ref=v0.4"
+    source = "github.com/marrold/aws-instant-website?ref=v0.5"
 
     providers = {
       aws     = aws
