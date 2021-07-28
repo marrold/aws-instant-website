@@ -1,6 +1,6 @@
 module "website" {
 
-    source = "github.com/marrold/aws-instant-website?ref=v0.5"
+    source = "github.com/marrold/aws-instant-website?ref=v0.6"
 
     providers = {
       aws     = aws
@@ -8,6 +8,8 @@ module "website" {
     }
 
     fqdn = "example.org"
+
+    # Specify any desired subdomains that should serve the same content. Defaults to None.
     subdomains = ["www"]
 
     # Path to HTML. If this value is not defined it's assumed you'll upload files using another method.

@@ -44,7 +44,10 @@ Your .tf file should look something like this:
           aws.us-east-1 = aws.us-east-1
         }
     
-        fqdn = "www.example.org"
+        fqdn = "example.org"
+
+        # Specify any desired subdomains that should serve the same content. Defaults to None.
+        subdomains = ["www"]
     
         # Path to HTML. If this value is not defined it's assumed you'll upload files using another method.
         file_path = "html/"
