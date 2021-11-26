@@ -12,7 +12,7 @@ The module _can_ upload files from a local directory of your choice to the S3 bu
 
 AWS can get expensive. Possibly more expensive than just hosting a static website on a cheap VPS or hosting provider. Set sensible budget limits / alarms and read the AWS docs to understand the pricing.
 
-This module has been tested with Terraform `0.14.4`
+This module has been tested with Terraform `0.15.5`
 
 ## Example
 
