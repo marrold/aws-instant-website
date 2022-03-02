@@ -108,6 +108,11 @@ terraform apply
 - **mime_type_overrides**: A map of file extensions and their mime-types, to override those set by the module. 
 
 
+## Acknowledgements
+
+- cf_index_rewrite: [Ronnie Eichler](https://aws.amazon.com/blogs/compute/implementing-default-directory-indexes-in-amazon-s3-backed-amazon-cloudfront-origins-using-lambdaedge/)
+- lambda@edge: [transcend-io](https://github.com/transcend-io/terraform-aws-lambda-at-edge)
 ## License
 
 This project is licensed under the terms of the _MIT license_
+

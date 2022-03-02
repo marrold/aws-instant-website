@@ -6,7 +6,7 @@ resource "aws_cloudfront_origin_access_identity" "cloudfront_oai" {
 # Create the S3 distribution.
 resource "aws_cloudfront_distribution" "s3_distribution" {
   origin {
-    domain_name = aws_s3_bucket.s3_bucket.bucket_regional_domain_name
+    domain_name = aws_s3_bucket.s3_html_bucket.bucket_regional_domain_name
     origin_id   = var.fqdn
 
     s3_origin_config {
@@ -34,6 +34,12 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
       cookies {
         forward = "none"
       }
+    }
+
+    lambda_function_association {
+      event_type   = "origin-request"   
+      include_body = false
+      lambda_arn   = aws_lambda_function.lambda.qualified_arn
     }
 
     min_ttl                = 0
