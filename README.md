@@ -37,7 +37,7 @@ Your .tf file should look something like this:
   
     module "website" {
     
-        source = "./module"
+        source = "github.com/marrold/aws-instant-website?ref=v0.12"
     
         providers = {
           aws     = aws
