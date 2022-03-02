@@ -108,6 +108,9 @@ terraform apply
 - **mime_type_overrides**: A map of file extensions and their mime-types, to override those set by the module. 
 
 
+## Caveats
+
+- **Deleting Lambda@Edge functions and replicas**: When you destroy the resources you might get a warning that the lambda function couldn't be deleted. This is because it can't be deleted until the replicas are destroyed on the AWS side. You may need to re-run the destory task a few hours later [AWS Docs](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/lambda-edge-delete-replicas.html)
 ## Acknowledgements
 
 - cf_index_rewrite: [Ronnie Eichler](https://aws.amazon.com/blogs/compute/implementing-default-directory-indexes-in-amazon-s3-backed-amazon-cloudfront-origins-using-lambdaedge/)
