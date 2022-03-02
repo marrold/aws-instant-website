@@ -83,8 +83,8 @@ data "aws_iam_policy_document" "assume_role_policy_doc" {
       type = "Service"
 
       identifiers = [
-        "edgelambda.amazonaws.com",
         "lambda.amazonaws.com",
+        "edgelambda.amazonaws.com",
       ]
     }
   }
