@@ -1,6 +1,6 @@
 # aws-instant-website
 
-aws-instant-website is a [terraform](https://www.terraform.io/) configuration to build a public static website in AWS S3, with Cloudfront in front allowing you to use a custom domain + DNS with TLS.
+aws-instant-website is a [terraform](https://www.terraform.io/) configuration to build a public static website in AWS S3, with Cloudfront in front allowing you to use a custom domain + DNS with TLS. A Lambda@Edge function deals with re-writing paths so a URI that doesn't end with a filename automatically requests index.html
 
 It's assumed you're already (partially) experienced with AWS and Terraform and just want a static website without making 3000 clicks in the console. Or spending 2 evenings making this module.
 
@@ -108,6 +108,14 @@ terraform apply
 - **mime_type_overrides**: A map of file extensions and their mime-types, to override those set by the module. 
 
 
+## Caveats
+
+- **Deleting Lambda@Edge functions and replicas**: When you destroy the resources you might get a warning that the lambda function couldn't be deleted. This is because it can't be deleted until the replicas are destroyed on the AWS side. You may need to re-run the destory task a few hours later [AWS Docs](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/lambda-edge-delete-replicas.html)
+## Acknowledgements
+
+- cf_index_rewrite: [Ronnie Eichler](https://aws.amazon.com/blogs/compute/implementing-default-directory-indexes-in-amazon-s3-backed-amazon-cloudfront-origins-using-lambdaedge/)
+- lambda@edge: [transcend-io](https://github.com/transcend-io/terraform-aws-lambda-at-edge)
 ## License
 
 This project is licensed under the terms of the _MIT license_
+
