@@ -4,14 +4,14 @@ locals {
   merged_mime_types = merge(local.default_mime_types, var.mime_type_overrides)
   
   # Build a list of the file keys
-  file_keys = try(fileset(var.file_path, "**"), []) 
+  file_keys = [for fileset in try(fileset(var.file_path, "**"), [])  : fileset if fileset != ".DS_Store"]
 
   # Build a map of file names, full paths, and mime-types
   file_map = flatten([
 
       # If you get an error here it's probably because the MIME type isn't defined for the file extension. 
       # add it in mime_type_overrides.tf and submit a PR / raise an issue on Github
-      for file in fileset(var.file_path, "**") : {
+      for file in local.file_keys : {
         "path"      = format("%s/%s", var.file_path, file), 
         "mime_type" = local.merged_mime_types[split(".", file)[length(split(".", file)) - 1]]
       }
