@@ -9,11 +9,9 @@ locals {
   # Build a map of file names, full paths, and mime-types
   file_map = flatten([
 
-      # If you get an error here it's probably because the MIME type isn't defined for the file extension. 
-      # add it in mime_type_overrides.tf and submit a PR / raise an issue on Github
       for file in local.file_keys : {
         "path"      = format("%s/%s", var.file_path, file), 
-        "mime_type" = local.merged_mime_types[split(".", file)[length(split(".", file)) - 1]]
+        "mime_type" = try(local.merged_mime_types[split(".", file)[length(split(".", file)) - 1]], "application/octet-stream")
       }
 
   ])
