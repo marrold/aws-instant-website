@@ -1,4 +1,17 @@
 /**
+ * Create a random string to concat with the lambda name
+*/
+resource "random_string" "random_lambda_id" {
+
+  length  = 16
+  special = false
+  upper   = false
+  lower   = true
+
+}
+
+
+/**
  * Lambdas are uploaded to via zip files, so we create a zip out of a given directory.
  * In the future, we may want to source our code from an s3 bucket instead of a local zip.
  */
@@ -47,7 +60,7 @@ resource "aws_lambda_function" "lambda" {
   # edge lambdas need to live in us-east-1
   provider = aws.us-east-1
 
-  function_name = "cf_rewrite_index"
+  function_name = "cf_rewrite_index_${random_string.random_lambda_id.id}"
   description   = "Cloudfront index rewrite"
 
   # Find the file from S3
@@ -99,7 +112,7 @@ resource "aws_iam_role" "lambda_at_edge" {
   # edge lambdas need to live in us-east-1
   provider = aws.us-east-1
 
-  name               = "cf_rewrite_index-role"
+  name               = "cf_rewrite_index_role_${random_string.random_lambda_id.id}"
   assume_role_policy = data.aws_iam_policy_document.assume_role_policy_doc.json
 }
 
@@ -143,5 +156,5 @@ resource "aws_iam_role_policy" "logs_role_policy" {
  */
 resource "aws_cloudwatch_log_group" "log_group" {
 
-  name = "/aws/lambda/cf_rewrite_index"
+  name = "/aws/lambda/cf_rewrite_index_${random_string.random_lambda_id.id}"
 }
