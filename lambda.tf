@@ -74,11 +74,6 @@ resource "aws_lambda_function" "lambda" {
   runtime = "nodejs14.x"
   role    = aws_iam_role.lambda_at_edge.arn
 
-  lifecycle {
-    ignore_changes = [
-      last_modified,
-    ]
-  }
 }
 
 /**
