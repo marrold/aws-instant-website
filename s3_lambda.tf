@@ -9,16 +9,6 @@ resource "aws_s3_bucket" "s3_lambda_bucket" {
 
 }
 
-# Create an ACL for the lambda bucket
-resource "aws_s3_bucket_acl" "s3_lambda_bucket_acl" {
-
-  # edge lambdas need to live in us-east-1
-  provider = aws.us-east-1
-
-  bucket = aws_s3_bucket.s3_lambda_bucket.id
-  acl    = "private"
-}
-
 # Enable versioning for the lambda bucket
 resource "aws_s3_bucket_versioning" "s3_lambda_bucket_versioning" {
 
