@@ -81,12 +81,6 @@ resource "aws_s3_bucket_website_configuration" "s3_html_bucket_website_configura
 
 }
 
-# Create an ACL for the HTML bucket
-resource "aws_s3_bucket_acl" "s3_html_bucket_acl" {
-  bucket = aws_s3_bucket.s3_html_bucket.id
-  acl    = "private"
-}
-
 # Upload the HTML files to the HTML bucket
 resource "aws_s3_object" "object" {
   
