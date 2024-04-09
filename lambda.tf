@@ -71,7 +71,7 @@ resource "aws_lambda_function" "lambda" {
 
   publish = true
   handler = "index.handler"
-  runtime = "nodejs14.x"
+  runtime = "nodejs20.x"
   role    = aws_iam_role.lambda_at_edge.arn
 
 }
