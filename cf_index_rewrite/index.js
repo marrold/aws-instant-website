@@ -7,8 +7,8 @@ exports.handler = (event, context, callback) => {
     // Extract the URI from the request
     var olduri = request.uri;
 
-    // Regular expression to match a filename with a 3 or 4 character extension
-    var filePattern = /\/[^\/]+\.[a-zA-Z0-9]{3,4}$/;
+    // Regular expression to match a filename with a 2 or 4 character extension
+    var filePattern = /\/[^\/]+\.[a-zA-Z0-9]{2,4}$/;
 
     // Check if the URI does not end with a filename format 'something.format'
     if (!filePattern.test(olduri)) {
